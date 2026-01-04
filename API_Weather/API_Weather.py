@@ -1,4 +1,4 @@
-import requests
+import requestsøü
 
 def get_weather_from_openweather(api_key, city_name="London"): 
     base_url = "http://api.openweathermap.org/data/2.5/weather"
