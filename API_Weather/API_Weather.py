@@ -1,5 +1,6 @@
 import requests
 import dotenv
+from config import API_KEY
 
 
 def get_weather_from_openweather(api_key, city_name="London"): 
@@ -21,7 +22,7 @@ def get_weather_from_openweather(api_key, city_name="London"):
 
 
 if __name__ == "__main__":
-    API_KEY = "8eb3ab622fcf31d0f9a779736017be18"
+    print(API_KEY)
     weather = get_weather_from_openweather(API_KEY)
     
     if weather:
