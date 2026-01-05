@@ -22,7 +22,6 @@ def get_weather_from_openweather(api_key, city_name="London"):
 
 
 if __name__ == "__main__":
-    print(API_KEY)
     weather = get_weather_from_openweather(API_KEY)
     
     if weather:
