@@ -81,6 +81,7 @@ class WeatherService:
         description = weather_data["weather"][0]["description"]
         feels_like = weather_data["main"].get("feels_like", temp)
 
+
         print(f"\n{'='*40}")
 
     def get_weather_from_openweather(api_key, city_name="London"): 
