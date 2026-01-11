@@ -89,9 +89,30 @@ class WeatherService:
         print(f"📝 Описание: {description.capitalize()}")
         print(f"{'='*40}\n")
 
+    def run(self) -> None:
+        self.logger.info("Запуск приложения")
 
+        print("Добро пожаловать в WeatherService")
+        print("Для выходя введите 'quit' или 'exit' \n")
+
+        while True:
+            city = input("Введите название для города:   ").strip()
+
+            if city.lower() in ("quit", "exit"):
+                self.logger.info("Пользователь завершил работу")
+                print("\n Всего доброго")
+                break
+
+            if not city:
+                print("Название города не может быть пустым")
+                continue
+
+            weather_data = self.get_weather(city)
+            if weather_data:
+                self.display_weather(weather_data)
 
     def get_weather_from_openweather(api_key, city_name="London"): 
+        pass
         params = {
             'q': city_name,
             "appid": api_key,
