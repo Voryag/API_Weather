@@ -1,4 +1,5 @@
-﻿from matplotlib.pylab import f
+﻿from re import A
+from matplotlib.pylab import f
 import requests
 import dotenv
 import logging
@@ -130,9 +131,9 @@ class WeatherService:
 
 
 if __name__ == "__main__":
-    weather = get_weather_from_openweather(API_KEY)
-    
-    if weather:
-        print(f"Weather in {weather['name']}:")
-        print(f"Temp: {weather['main']['temp']}")
-        print(f"Info: {weather['weather'][0]['description']}")
+    if not API_KEY:
+        print("Токен не найден")
+        sys.exit(1)
+
+    app = WeatherSevice(API_KEY)
+    app.run()
