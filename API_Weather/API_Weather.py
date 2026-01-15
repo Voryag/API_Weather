@@ -1,13 +1,13 @@
 ﻿from re import A
 from matplotlib.pylab import f
-import requests
+import request
 import dotenv
 import logging
 from config import API_KEY
 
 
 class WeatherService:
-    """Class for take information with API"""
+    """Класс для получения погоды по API"""
 
     BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
                 
@@ -15,7 +15,7 @@ class WeatherService:
     def __init__(self, api_key: str):
         self.api_key = api_key
         self._setup_logging()
-        self.logger.info("WearherService is initialized")
+        self.logger.info("Сервис погода проинициализирован")
 
     def _setup_logging(self):
         self.logger = logging.getLogger(WeatherService)
@@ -122,7 +122,7 @@ class WeatherService:
             }
         
         try:
-            response = requests.get(base_url, params=params)
+            response = requests.get(BASE_URL, params=params)
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
@@ -135,5 +135,5 @@ if __name__ == "__main__":
         print("Токен не найден")
         sys.exit(1)
 
-    app = WeatherSevice(API_KEY)
+    app = WeatherService(API_KEY)
     app.run()
