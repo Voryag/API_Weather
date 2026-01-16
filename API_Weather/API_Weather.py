@@ -1,8 +1,9 @@
 ﻿from re import A
 from matplotlib.pylab import f
-import request
+import requests
 import dotenv
 import logging
+import sys
 from config import API_KEY
 
 
@@ -10,7 +11,6 @@ class WeatherService:
     """Класс для получения погоды по API"""
 
     BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
-                
 
     def __init__(self, api_key: str):
         self.api_key = api_key
@@ -18,11 +18,10 @@ class WeatherService:
         self.logger.info("Сервис погода проинициализирован")
 
     def _setup_logging(self):
-        self.logger = logging.getLogger(WeatherService)
+        self.logger = logging.getLogger("WeatherService")
 
         if not self.logger.handlers:
             self.logger.setLevel(logging.INFO)
-
             formatter = logging.Formatter(
                 "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
                 )
@@ -31,12 +30,12 @@ class WeatherService:
             console_handler.setFormatter(formatter)
             self.logger.addHandler(console_handler)
 
-    def get_weather(self, city: str) -> dict :
+    def get_weather(self, city: str, key: str) -> dict :
         self.logger.info(f"Запрос погоды для города: {city}")
 
         params = {
-            "q": city_name,
-            "appid": api_key,
+            "q": city,
+            "appid": key,
             "units": "metric",
             "lang": "ru",
             }
@@ -52,10 +51,10 @@ class WeatherService:
         except requests.exceptions.Timeout:
             self.logger.error(f"Таймайут при запросе для {city}")
             print("Превышено время ожидания ответа от сервера")
-        except request.exceptions.ConnectionError:
+        except requests.exceptions.ConnectionError:
             self.logger.error(f"Ошибка подключения для {city}")
             print("Проблема с подключением к интернету")
-        except request.exceptions.HTTPError as http_err:
+        except requests.exceptions.HTTPError as http_err:
             error_data = response.json() if response else {}
             error_msg = error_data.get("message", "Неизвестная ошибка API")
 
@@ -108,26 +107,10 @@ class WeatherService:
                 print("Название города не может быть пустым")
                 continue
 
-            weather_data = self.get_weather(city)
+            weather_data = self.get_weather(city, API_KEY)
             if weather_data:
                 self.display_weather(weather_data)
 
-    def get_weather_from_openweather(api_key, city_name="London"): 
-        pass
-        params = {
-            'q': city_name,
-            "appid": api_key,
-            "units": "metric",
-            "lang": "ru",
-            }
-        
-        try:
-            response = requests.get(BASE_URL, params=params)
-            response.raise_for_status()
-            return response.json()
-        except requests.exceptions.RequestException as e:
-            print(f"Error: {e}")
-            return None
 
 
 if __name__ == "__main__":
